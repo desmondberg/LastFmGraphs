@@ -22,3 +22,7 @@
 .viewBtns button{
   width:5rem;
 }
+
+.tiny{
+  font-size:0.5rem;
+}
