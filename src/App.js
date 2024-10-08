@@ -1,27 +1,37 @@
 import './App.css';
 import Graph from './Graph';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function App() {
   const [timeframe,setTimeframe] = useState('time_7');
   const [chartType,setChartType] = useState('line');
+  const [confirmButtonPressed, setConfirmButtonPressed] = useState(false)
   const timeframeHandler = (event)=>{
     setTimeframe(event.target.value);
   };
   const chartTypeHandler = (event)=>{
     setChartType(event.target.value);
   };
+  // useEffect runs when `buttonPressed` changes
+  useEffect(() => {
+    if (confirmButtonPressed) {
+        console.log('Button was pressed!');
+
+        // Reset the state if you want to listen for future presses
+        setConfirmButtonPressed(false);
+    }
+}, [confirmButtonPressed]); // Dependency on `buttonPressed`
 
   return (
     <div className="App">
       <header className="App-header">
         <h1>Last.fm Graph Tools</h1>
-        <div class="user-form">
+        <div className="user-form">
           <label for="username">Last.fm username:</label>
-          <input type="text" class="form-control" name="username" id="" aria-describedby="helpId" placeholder=""/>
+          <input type="text" className="form-control" name="username" id="" aria-describedby="helpId" placeholder=""/>
           <br/>
           <label for="timeframe">select timeframe</label>
-          <select class="form-control" name="timeframe" value={timeframe} onChange={timeframeHandler}>
+          <select className="form-control" name="timeframe" value={timeframe} onChange={timeframeHandler}>
             <option value="time_7">last 7 days</option>
             <option value="time_30">last 30 days</option>
             <option value="time_90">last 90 days</option>
@@ -29,15 +39,15 @@ function App() {
             <option value="time_365">last 365 days</option>
           </select>
           <label for="chart-type">select chart type</label>
-            <select class="form-control" name="chart-type" id="" value={chartType} onChange={chartTypeHandler}>
+            <select className="form-control" name="chart-type" id="" value={chartType} onChange={chartTypeHandler}>
               <option value="line">Line Graph</option>
               <option value="donut">Doughnut Graph</option>
               <option value="bar">Bar Graph</option>
             </select>
-          <button type="submit">confirm</button>
+          <button onClick={() => setConfirmButtonPressed(true)}>confirm</button>
         </div>
       </header>
-      <Graph chartType={chartType}/>
+      <Graph timeframe={timeframe} chartType={chartType} buttonPressed={confirmButtonPressed}/>
     </div>
   );
 }
