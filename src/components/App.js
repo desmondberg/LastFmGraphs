@@ -12,15 +12,14 @@ function App() {
   const chartTypeHandler = (event)=>{
     setChartType(event.target.value);
   };
-  // useEffect runs when `buttonPressed` changes
+
   useEffect(() => {
     if (confirmButtonPressed) {
-        console.log('Button was pressed!');
-
-        // Reset the state if you want to listen for future presses
-        setConfirmButtonPressed(false);
+        console.log('confirm button pressed');
+        //wait a bit before resetting the button's status
+        setTimeout(() => setConfirmButtonPressed(false), 500);
     }
-}, [confirmButtonPressed]); // Dependency on `buttonPressed`
+  }, [confirmButtonPressed]); 
 
   return (
     <div className="App">
@@ -47,7 +46,7 @@ function App() {
           <button onClick={() => setConfirmButtonPressed(true)}>confirm</button>
         </div>
       </header>
-      <Graph timeframe={timeframe} chartType={chartType} buttonPressed={confirmButtonPressed}/>
+      <Graph username={"plazzmic"} timeframe={timeframe} chartType={chartType} buttonPressed={confirmButtonPressed}/>
     </div>
   );
 }
